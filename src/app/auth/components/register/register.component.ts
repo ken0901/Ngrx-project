@@ -4,11 +4,14 @@ import { Store } from '@ngrx/store';
 import { register } from '../../store/action';
 import { RegisterRequestInterface } from '../../types/registerRequest.interface';
 import { RouterLink } from '@angular/router';
+import { AuthStateInterface } from '../../types/authState.interface';
+import { selectIsSubmitted } from '../../store/selectors';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -18,9 +21,10 @@ export class RegisterComponent {
     email: ['',Validators.required],
     password: ['',Validators.required]
   });
+  isSubmitted$ = this.store.select(selectIsSubmitted)
 
   constructor(private fb: FormBuilder,
-              private store: Store
+              private store: Store<{auth: AuthStateInterface}>
   ){}
 
   onSubmit() {
