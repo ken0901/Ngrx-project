@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { AuthStateInterface } from '../../types/authState.interface';
 import { selectIsSubmitted } from '../../store/selectors';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,8 @@ export class RegisterComponent {
   isSubmitted$ = this.store.select(selectIsSubmitted)
 
   constructor(private fb: FormBuilder,
-              private store: Store<{auth: AuthStateInterface}>
+              private store: Store<{auth: AuthStateInterface}>,
+              private authService: AuthService
   ){}
 
   onSubmit() {
@@ -33,5 +35,6 @@ export class RegisterComponent {
       user: this.form.getRawValue()
     };
     this.store.dispatch(register({request}));
+    this.authService.register(request).subscribe(res => console.log('res'));
   }
 }
