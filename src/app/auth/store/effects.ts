@@ -5,17 +5,21 @@ import { authActions } from "./action";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { CurrentUserInterface } from "../../shared/types/currentUser.interface";
 import { HttpErrorResponse } from "@angular/common/http";
-import { PersistenceService } from "../../shared/services/persistence.service";
+import { PersistanceService } from "../../shared/services/persistence.service";
 import { Router } from "@angular/router";
 
 export const getCurrentUserEffect = createEffect((
     actions$ = inject(Actions),
     authService = inject(AuthService),
-    persistenceService = inject(PersistenceService)
+    persistenceService = inject(PersistanceService)
 ) => {
     return actions$.pipe(
         ofType(authActions.getCurrentUser),
         switchMap(() => {
+            const token = persistenceService.get('accessToken')
+            if(!token) {
+                return of(authActions.getCurrentUserFailure())
+            }
             return authService.getCurrentUser().pipe(
                 map((currentUser: CurrentUserInterface) => {
                     return authActions.getCurrentUserSuccess({currentUser})
@@ -31,7 +35,7 @@ export const getCurrentUserEffect = createEffect((
 export const registerEffect = createEffect((
     actions$ = inject(Actions),
     authService = inject(AuthService),
-    persistenceService = inject(PersistenceService)
+    persistenceService = inject(PersistanceService)
 ) => {
     return actions$.pipe(
         ofType(authActions.register),
@@ -65,7 +69,7 @@ export const redirectAfterRegisterEffect = createEffect(
 export const loginEffect = createEffect((
     actions$ = inject(Actions),
     authService = inject(AuthService),
-    persistenceService = inject(PersistenceService)
+    persistenceService = inject(PersistanceService)
 ) => {
     return actions$.pipe(
         ofType(authActions.login),
