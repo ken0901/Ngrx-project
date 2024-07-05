@@ -9,5 +9,5 @@ import { FeedComponent } from '../../../shared/components/feed/feed.component';
   styleUrl: './global-feed.component.css'
 })
 export class GlobalFeedComponent {
-
+  apiUrl = '/articles';
 }
