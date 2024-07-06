@@ -4,14 +4,16 @@ import { feedActions } from './store/actions';
 import { combineLatest } from 'rxjs';
 import { selectError, selectFeedData, selectIsLoading } from './store/reducers';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { ErrorMessageComponent } from '../error-message/error-message.component';
 import { LoadingComponent } from '../loading/loading.component';
+import { environment } from '../../../../environments/environment';
+import { PaginationComponent } from '../pagination/pagination.component';
 
 @Component({
   selector: 'app-feed',
   standalone: true,
-  imports: [CommonModule, RouterLink, ErrorMessageComponent, LoadingComponent],
+  imports: [CommonModule, RouterLink, ErrorMessageComponent, LoadingComponent, PaginationComponent],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css'
 })
@@ -24,9 +26,23 @@ export class FeedComponent implements OnInit{
     feed: this.store.select(selectFeedData)
   });
 
-  constructor(private store: Store){}
+  limit = environment.limit;
+  baseUrl = this.router.url.split('?')[0];
+  currentPage: number = 0;
+
+  constructor(private store: Store,
+              private router: Router,
+              private route: ActivatedRoute){}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params: Params) => {
+      // {page: '1'}
+      this.currentPage = Number(params['page'] || '1')
+      this.fetchFeed()
+    });
+  }
+
+  fetchFeed(): void {
     this.store.dispatch(feedActions.getFeed({url: this.apiUrl}));
   }
 }
