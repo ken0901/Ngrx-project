@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TopBarComponent } from './auth/components/top-bar/top-bar.component';
 import { Store } from '@ngrx/store';
 import { authActions } from './auth/store/action';
+import { TopBarComponent } from './shared/components/top-bar/top-bar.component';
 
 @Component({
   selector: 'app-root',

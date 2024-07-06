@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectCurrentUser } from '../../store/reducers';
 import { combineLatest } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
+import { selectCurrentUser } from '../../../auth/store/reducers';
 
 @Component({
   selector: 'app-top-bar',
