@@ -9,6 +9,7 @@ import { ErrorMessageComponent } from '../error-message/error-message.component'
 import { LoadingComponent } from '../loading/loading.component';
 import { environment } from '../../../../environments/environment';
 import { PaginationComponent } from '../pagination/pagination.component';
+import queryString from 'query-string';
 
 @Component({
   selector: 'app-feed',
@@ -43,6 +44,14 @@ export class FeedComponent implements OnInit{
   }
 
   fetchFeed(): void {
-    this.store.dispatch(feedActions.getFeed({url: this.apiUrl}));
+    const offset = this.currentPage * this.limit - this.limit;
+    const parseUrl = queryString.parseUrl(this.apiUrl);
+    const stringifiedParams = queryString.stringify({
+      limit: this.limit,
+      offset,
+      ...parseUrl.query
+    });
+    const apiUrlWithParams = `${parseUrl.url}?${stringifiedParams}`;
+    this.store.dispatch(feedActions.getFeed({url: apiUrlWithParams}));
   }
 }
