@@ -2,7 +2,6 @@
     <app-loading *ngIf="data.isLoading"></app-loading>
     <app-error-message *ngIf="data.error" [message]="data.error"></app-error-message>
 
-    <p>{{data | json}}</p>
     <div *ngIf="data.feed">
         <div class="aerticle-preview" *ngFor="let article of data.feed.articles">
             <div class="article-meta">
