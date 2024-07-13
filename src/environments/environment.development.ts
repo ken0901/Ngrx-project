@@ -1,5 +1,6 @@
 export const environment = {
-    apiUrl: 'http://localhost:3000/api',
-    //'http://api.realworld.io/api',
-    limit: 5,
+    apiUrl: 'https://api.realworld.io/api',
+    //'http://localhost:3000/api',
+    //https://api.realworld.io/api
+    limit: 20,
 };
