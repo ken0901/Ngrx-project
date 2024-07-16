@@ -12,5 +12,5 @@ import { BannerComponent } from "../../../shared/components/banner/banner.compon
   styleUrl: './your-feed.component.css'
 })
 export class YourFeedComponent {
-  apiUrl = '/articles';
+  apiUrl = '/articles/feed';
 }
