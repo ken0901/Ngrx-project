@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 import { ArticleFormValuesInterface } from '../../../shared/components/article-form/types/articleFormValues.interface';
 import { ArticleFormComponent } from '../../../shared/components/article-form/article-form.component';
+import { Store } from '@ngrx/store';
+import { combineLatest } from 'rxjs';
+import { selectIsSubmitted, selectValidationErrors } from '../../store/reducers';
+import { ArticleRequestInterface } from '../../../shared/types/articleRequest.interface';
+import { createArticleActions } from '../../store/actions';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-article',
   standalone: true,
-  imports: [ArticleFormComponent],
+  imports: [ArticleFormComponent, CommonModule],
   templateUrl: './create-article.component.html',
   styleUrl: './create-article.component.css'
 })
@@ -15,9 +21,19 @@ export class CreateArticleComponent {
     description: '',
     body: '',
     tagList: []
-  }
+  };
+
+  data$ = combineLatest({
+    isSubmitted: this.store.select(selectIsSubmitted),
+    backendErrors: this.store.select(selectValidationErrors),
+  });
+
+  constructor(private store: Store) {}
 
   onSubmit(articleFormValues: ArticleFormValuesInterface): void {
-    console.log('onSubmit in create article', articleFormValues);
+    const request: ArticleRequestInterface = {
+      article: articleFormValues
+    }
+    this.store.dispatch(createArticleActions.createArticle({request}));
   }
 }
