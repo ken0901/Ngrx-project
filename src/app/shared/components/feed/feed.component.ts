@@ -11,11 +11,12 @@ import { environment } from '../../../../environments/environment';
 import { PaginationComponent } from '../pagination/pagination.component';
 import queryString from 'query-string';
 import { TagListComponent } from '../tag-list/tag-list.component';
+import { AddToFavoritesComponent } from "../add-to-favorites/add-to-favorites.component";
 
 @Component({
   selector: 'app-feed',
   standalone: true,
-  imports: [CommonModule, RouterLink, ErrorMessageComponent, LoadingComponent, PaginationComponent, TagListComponent],
+  imports: [CommonModule, RouterLink, ErrorMessageComponent, LoadingComponent, PaginationComponent, TagListComponent, AddToFavoritesComponent],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css'
 })
