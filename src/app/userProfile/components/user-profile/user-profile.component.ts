@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { userProfileActions } from '../../store/actions';
@@ -43,6 +43,9 @@ export class UserProfileComponent implements OnInit{
     userProfile: this.store.select(selectUserProfileData),
     isCurrentUserProfile: this.isCurrentUserProfile$
   });
+
+  isLoading = this.store.selectSignal(selectIsLoading);
+  foo = computed(() => this.isLoading() ? 'true': 'false');
 
   // constructor(private route: ActivatedRoute,
   //             private store: Store,
